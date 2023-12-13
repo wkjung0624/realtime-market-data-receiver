@@ -10,7 +10,7 @@ namespace Client
 {
     public class UDPClient
     {
-        private IPEndPoint ipEndPoint;
+        private IPEndPoint serverEndPoint;
         private int port;
         private Socket socket;
 
@@ -34,7 +34,7 @@ namespace Client
         {
             Console.WriteLine("클라이언트를 초기화 합니다."); 
 
-            ipEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+            serverEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         }
         
@@ -47,7 +47,7 @@ namespace Client
 
             Console.WriteLine("서버에 연결 등록");
 
-            socket.SendTo(payload, payload.Length, SocketFlags.None, ipEndPoint);
+            socket.SendTo(payload, payload.Length, SocketFlags.None, serverEndPoint);
         }
         public void StartMessageReceiveLoop()
         {
@@ -60,9 +60,9 @@ namespace Client
 
             while (true)
             {
-                // ReceiveFrom()
                 socket.ReceiveFrom(recvData, ref remote);
-                Console.WriteLine("Client Receive Data : {0}", Encoding.Default.GetString(recvData));
+                
+                Console.WriteLine("전달 받은 데이터 : {0}", Encoding.ASCII.GetString(recvData));
             }
         }
         public void UnSubscribe() 
