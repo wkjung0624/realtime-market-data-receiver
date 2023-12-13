@@ -1,20 +1,48 @@
 ﻿using System;
-using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Net;
+using System.Net.Sockets;
 
-class Program
+namespace UDP_CLIENT
 {
-    static void Main(string[] args)
+    class Program
     {
-        UDPServer server = new UDPServer();
-        UDPClient client = new UDPClient();
+        static void Main(string[] args)
+        {
+            new Program();
+        }
+        public Program()
+        {
+            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5555);
+            Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-        // 서버를 쓰레드로 실행
-        Thread serverThread = new Thread(server.Start);
-        serverThread.Start();
+            // string --> byte[]
+            byte[] _data = Encoding.Default.GetBytes("Server SendTo Data");
 
-        // 클라이언트를 실행
-        client.Start();
+            // Connect() 후 Send() 가능
 
-        Console.WriteLine("프로그램 종료");
+            // SendTo()
+            client.SendTo(_data, _data.Length, SocketFlags.None, ipep);
+
+            IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
+            EndPoint remote = (EndPoint)(sender);
+
+            _data = new byte[1024];
+
+            // ReceiveFrom()
+            client.ReceiveFrom(_data, ref remote);
+            Console.WriteLine("{0} : \r\nClient Receive Data : {1}", remote.ToString(), 
+                Encoding.Default.GetString(_data));
+
+            // Close()
+            client.Close();
+
+            Console.WriteLine("Press Any key...");
+            Console.ReadLine();
+        }
+
     }
 }
