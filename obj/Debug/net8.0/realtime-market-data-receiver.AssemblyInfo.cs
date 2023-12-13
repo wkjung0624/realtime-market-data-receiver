@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("realtime-market-data-receiver")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1efe2c1e3e330e81318764dd8e12af2e87ded562")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8c4efc8c0da3f6f8fba0dfddccf2b03638b397d")]
 [assembly: System.Reflection.AssemblyProductAttribute("realtime-market-data-receiver")]
 [assembly: System.Reflection.AssemblyTitleAttribute("realtime-market-data-receiver")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
