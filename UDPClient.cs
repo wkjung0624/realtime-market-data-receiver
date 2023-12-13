@@ -61,8 +61,20 @@ namespace Client
             while (true)
             {
                 socket.ReceiveFrom(recvData, ref remote);
-                
-                Console.WriteLine("전달 받은 데이터 : {0}", Encoding.ASCII.GetString(recvData));
+
+                byte[] tickerBytes = new byte[7];
+                byte[] closePriceBytes = new byte[4];
+                byte[] tradeVolBytes = new byte[8];
+
+                Array.Copy(recvData, 0, tickerBytes, 0, tickerBytes.Length);
+                Array.Copy(recvData, 8, closePriceBytes, 0, closePriceBytes.Length);
+                Array.Copy(recvData, 12, tradeVolBytes, 0, tradeVolBytes.Length);
+
+                string ticker = Encoding.Default.GetString(tickerBytes);
+                int closePrice = BitConverter.ToInt32(closePriceBytes, 0);
+                long tradeVol = BitConverter.ToInt64(tradeVolBytes, 0);
+
+                Console.WriteLine("전달 받은 데이터 : {0}_{1}_{2}", ticker, closePrice, tradeVol);
             }
         }
         public void UnSubscribe() 
